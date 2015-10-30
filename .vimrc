@@ -28,17 +28,26 @@ Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
 Bundle "honza/vim-snippets"
+Bundle "scrooloose/nerdtree"
 
 " Paredit
-
 Bundle 'vim-scripts/paredit.vim'
 
 " Emmet
 Plugin 'mattn/emmet-vim'
 
+" JSX Syntax Highlighting
+Plugin 'mxw/vim-jsx'
+
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
+" Map Ctrl-N to open nerd tree
+map <C-n> :NERDTreeToggle<CR>
+
+" Map Ctrl-c to copy a line in visual mode (vnoremap)
+vnoremap <C-c> "+yy
 
 " Javascript Syntax
 Bundle "pangloss/vim-javascript"
