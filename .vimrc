@@ -4,15 +4,23 @@ filetype off                  " required
 " Enable syntax highlighting
 syntax on
 
-set background=dark
-colorscheme solarized
+" Load color scheme
+if has("gui_running")
+	"set background=dark
+	colorscheme base16-atelierheath
+else
+	colorscheme stonewashed-256
+endif
 
 set lines=999 columns=9999
 
-set guifont=Source\ Code\ Pro:h12
+set guifont=Droid\ Sans\ Mono\ 10
 
 " Line Numbers
 set nu
+
+" Color the non-text lines the same as the background
+:hi NonText guifg=fg guibg=bg
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -39,15 +47,29 @@ Plugin 'mattn/emmet-vim'
 " JSX Syntax Highlighting
 Plugin 'mxw/vim-jsx'
 
+" HIDL Syntax
+Plugin 'ssh://code@code.int.uberatc.com/diffusion/VIMHIDL/vim-hidl-ftplugin.git'
+
+" Ctrl P for fuzzy file search
+Plugin 'ctrlp.vim'
+
+" Base 16 theme
+Plugin 'chriskempson/base16-vim'
 
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+" Map Shift-Enter to Escape
+:inoremap <S-CR> <Esc>
 
 " Map Ctrl-N to open nerd tree
 map <C-n> :NERDTreeToggle<CR>
 
 " Map Ctrl-c to copy a line in visual mode (vnoremap)
 vnoremap <C-c> "+yy
+
+" Map ; to open Ctrl P buffer
+"nmap ; :CtrlPBuffer<CR>
 
 " Javascript Syntax
 Bundle "pangloss/vim-javascript"
