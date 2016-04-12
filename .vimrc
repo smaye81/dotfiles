@@ -4,13 +4,15 @@ filetype off                  " required
 " Enable syntax highlighting
 syntax on
 
+colorscheme base16-default
+
 " Load color scheme
-if has("gui_running")
-	"set background=dark
-	colorscheme base16-atelierheath
-else
-	colorscheme stonewashed-256
-endif
+"if has("gui_running")
+	" set background=dark
+"	colorscheme base16-default
+"else
+"	colorscheme stonewashed-256
+"endif
 
 set lines=999 columns=9999
 
@@ -18,6 +20,18 @@ set guifont=Droid\ Sans\ Mono\ 10
 
 " Line Numbers
 set nu
+
+"Set autoindent
+set autoindent
+
+" Expand tab
+set expandtab
+
+" Tab spacing
+set ts=4 sw=4 sts=4
+
+" Width of the NERDTree
+let g:NERDTreeWinSize = 50
 
 " Color the non-text lines the same as the background
 :hi NonText guifg=fg guibg=bg
