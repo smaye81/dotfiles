@@ -4,8 +4,6 @@ filetype off                  " required
 " Enable syntax highlighting
 syntax on
 
-colorscheme base16-default
-
 " Load color scheme
 "if has("gui_running")
 	" set background=dark
@@ -32,6 +30,12 @@ set ts=4 sw=4 sts=4
 
 " Width of the NERDTree
 let g:NERDTreeWinSize = 50
+
+" Map leader to space
+let mapleader="\<Space>"
+
+" Dont ask to load ycm config every time Vim opens
+let g:ycm_confirm_extra_conf = 0
 
 " Color the non-text lines the same as the background
 :hi NonText guifg=fg guibg=bg
@@ -70,6 +74,18 @@ Plugin 'ctrlp.vim'
 " Base 16 theme
 Plugin 'chriskempson/base16-vim'
 
+" You Complete Me
+Plugin 'Valloric/YouCompleteMe'
+
+" Vim Clang Format
+Plugin 'rhysd/vim-clang-format'
+
+" Vim Bbye for sane buffer closing
+Plugin 'moll/vim-bbye'
+
+" C++ Enhanced Syntax
+Plugin 'octol/vim-cpp-enhanced-highlight'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
@@ -83,7 +99,7 @@ map <C-n> :NERDTreeToggle<CR>
 vnoremap <C-c> "+yy
 
 " Map ; to open Ctrl P buffer
-"nmap ; :CtrlPBuffer<CR>
+nnoremap ; :CtrlP<CR>
 
 " Javascript Syntax
 Bundle "pangloss/vim-javascript"
@@ -91,7 +107,25 @@ let javascript_enable_domhtmlcss=1
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+
+" vim-clang-format values
+" Help the plugin find the specific version of clang-format installed
+" Alternatively, create a symlink to this from 'usr/bin/clang-format'
+let g:clang_format#command="clang-format-3.6"
+
+"Auto detect the clang format file in the ATC repo
+let g:clang_format#detect_style_file=1
+
+" Automatically set the formatexpr in vim so the "gg" and "q" functions work
+" to trigger formatting
+let g:clang_format#auto_formatexpr=1
+
+
 filetype plugin indent on    " required
+
+colorscheme base16-atelierheath
+
+
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
