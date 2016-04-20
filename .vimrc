@@ -14,7 +14,7 @@ syntax on
 
 set lines=999 columns=9999
 
-set guifont=Droid\ Sans\ Mono\ 10
+set guifont=Source\ Code\ Pro:h11
 
 " Line Numbers
 set nu
@@ -65,9 +65,6 @@ Plugin 'mattn/emmet-vim'
 " JSX Syntax Highlighting
 Plugin 'mxw/vim-jsx'
 
-" HIDL Syntax
-Plugin 'ssh://code@code.int.uberatc.com/diffusion/VIMHIDL/vim-hidl-ftplugin.git'
-
 " Ctrl P for fuzzy file search
 Plugin 'ctrlp.vim'
 
@@ -86,6 +83,9 @@ Plugin 'moll/vim-bbye'
 " C++ Enhanced Syntax
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
+" Fugitive Git
+Plugin 'tpope/vim-fugitive.git'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
@@ -100,6 +100,9 @@ vnoremap <C-c> "+yy
 
 " Map ; to open Ctrl P buffer
 nnoremap ; :CtrlP<CR>
+
+" Leader'vimrc' opens the vimrc file
+map <leader>vimrc :e ~/.vimrc<CR>
 
 " Javascript Syntax
 Bundle "pangloss/vim-javascript"
