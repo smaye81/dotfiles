@@ -1,9 +1,4 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" Enable syntax highlighting
-syntax on
-
 " Load color scheme
 "if has("gui_running")
 	" set background=dark
@@ -86,6 +81,9 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 " Fugitive Git
 Plugin 'tpope/vim-fugitive.git'
 
+" Syntastic
+Plugin 'scrooloose/syntastic.git'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
@@ -123,11 +121,23 @@ let g:clang_format#detect_style_file=1
 " to trigger formatting
 let g:clang_format#auto_formatexpr=1
 
+" Syntastic Flags
+let g:syntastic_cpp_checkers=['gcc']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_c_include_dirs = ['/av/source']
 
 filetype plugin indent on    " required
 
 colorscheme base16-atelierheath
 
+:hi Search ctermfg=020 ctermbg=026 guifg=#eeeeee guibg=#cccccc
 
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
