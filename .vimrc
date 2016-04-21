@@ -9,7 +9,7 @@ set nocompatible              " be iMproved, required
 
 set lines=999 columns=9999
 
-set guifont=Source\ Code\ Pro:h11
+set guifont=Source\ Code\ Pro
 
 " Line Numbers
 set nu
@@ -22,6 +22,17 @@ set expandtab
 
 " Tab spacing
 set ts=4 sw=4 sts=4
+
+" Status Line Format
+set laststatus=2
+set statusline=%<%f\               
+set statusline+=\ [%{getcwd()}]            
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%=%-14.(%l,%c%V%)\ %p%%
+
+"Show Ruler
+set ruler
 
 " Width of the NERDTree
 let g:NERDTreeWinSize = 50
@@ -84,6 +95,9 @@ Plugin 'tpope/vim-fugitive.git'
 " Syntastic
 Plugin 'scrooloose/syntastic.git'
 
+"Git Gutter
+Plugin 'airblade/vim-gitgutter'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
@@ -121,23 +135,34 @@ let g:clang_format#detect_style_file=1
 " to trigger formatting
 let g:clang_format#auto_formatexpr=1
 
+" Dont let YCM register as a syntastic checker
+let g:ycm_register_as_syntastic_checker = 0
+
 " Syntastic Flags
 let g:syntastic_cpp_checkers=['gcc']
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
+let g:syntastic_enable_signs=1
+let g:syntastic_mode_map = {'mode': 'active',
+    \ 'active_filetypes': [],
+    \ 'passive_filetypes': ["java"] }
+let g:syntastic_cpp_include_dirs = ['source']
+let g:syntastic_cpp_compiler_options=' -std=c++11'
+let g:syntastic_cpp_compiler = 'clang++-3.5'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_c_include_dirs = ['/av/source']
+
+set statusline
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 filetype plugin indent on    " required
 
 colorscheme base16-atelierheath
 
-:hi Search ctermfg=020 ctermbg=026 guifg=#eeeeee guibg=#cccccc
+:hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=bg
+:hi StatusLine guibg=#292e37 guifg=#fff
 
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
