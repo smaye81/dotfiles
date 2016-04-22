@@ -24,12 +24,12 @@ set expandtab
 set ts=4 sw=4 sts=4
 
 " Status Line Format
-set laststatus=2
-set statusline=%<%f\               
-set statusline+=\ [%{getcwd()}]            
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%=%-14.(%l,%c%V%)\ %p%%
+" set laststatus=2
+" set statusline=%<%f\               
+" set statusline+=\ [%{getcwd()}]            
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" set statusline+=%=%-14.(%l,%c%V%)\ %p%%
 
 "Show Ruler
 set ruler
@@ -46,9 +46,11 @@ let g:ycm_confirm_extra_conf = 0
 " Color the non-text lines the same as the background
 :hi NonText guifg=fg guibg=bg
 
+" Vundle ======================================================
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
@@ -92,11 +94,21 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 " Fugitive Git
 Plugin 'tpope/vim-fugitive.git'
 
+" Commentary for comments
+Plugin 'tpope/vim-commentary'
+
 " Syntastic
 Plugin 'scrooloose/syntastic.git'
 
 "Git Gutter
 Plugin 'airblade/vim-gitgutter'
+
+" Javascript Syntax
+Bundle "pangloss/vim-javascript"
+
+" Airline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
@@ -116,8 +128,6 @@ nnoremap ; :CtrlP<CR>
 " Leader'vimrc' opens the vimrc file
 map <leader>vimrc :e ~/.vimrc<CR>
 
-" Javascript Syntax
-Bundle "pangloss/vim-javascript"
 let javascript_enable_domhtmlcss=1
 
 " All of your Plugins must be added before the following line
@@ -152,17 +162,15 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-set statusline
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
 filetype plugin indent on    " required
 
 colorscheme base16-atelierheath
 
+" Airline Theme
+let g:airline_theme = "powerlineish"
+
 :hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=bg
-:hi StatusLine guibg=#292e37 guifg=#fff
+":hi StatusLine guibg=#292e37 guifg=#ffffff
 
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
