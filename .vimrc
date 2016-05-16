@@ -14,11 +14,17 @@ set guifont=Source\ Code\ Pro
 " Line Numbers
 set nu
 
+" Highlight Search
+set hlsearch
+
 "Set autoindent
 set autoindent
 
 " Expand tab
 set expandtab
+
+" Auto load files that have changed
+set autoread
 
 " Tab spacing
 set ts=4 sw=4 sts=4
@@ -33,6 +39,9 @@ set ts=4 sw=4 sts=4
 
 "Show Ruler
 set ruler
+
+" Python syntax
+let python_highlight_all = 1
 
 " Width of the NERDTree
 let g:NERDTreeWinSize = 50
@@ -110,11 +119,16 @@ Bundle "pangloss/vim-javascript"
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
+" Ack
+Plugin 'mileszs/ack.vim'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Map Shift-Enter to Escape
 :inoremap <S-CR> <Esc>
+
+nmap <F1> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><CR>
 
 " Map Ctrl-N to open nerd tree
 map <C-n> :NERDTreeToggle<CR>
@@ -162,6 +176,16 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Ctrlp flags
+set wildignore+=*/bin/*
+set wildignore+=*/build/*
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_custom_ignore ='\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|so|jar)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py|CMakeFiles\CMakeCache\.txt$|cmake_install\.cmake$'
+
+
 filetype plugin indent on    " required
 
 colorscheme base16-atelierheath
@@ -169,7 +193,7 @@ colorscheme base16-atelierheath
 " Airline Theme
 let g:airline_theme = "powerlineish"
 
-:hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=bg
+:hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
 ":hi StatusLine guibg=#292e37 guifg=#ffffff
 
 " To ignore plugin indent changes, instead use:
