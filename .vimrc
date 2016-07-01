@@ -1,11 +1,4 @@
 set nocompatible              " be iMproved, required
-" Load color scheme
-"if has("gui_running")
-	" set background=dark
-"	colorscheme base16-default
-"else
-"	colorscheme stonewashed-256
-"endif
 
 set lines=999 columns=9999
 
@@ -28,7 +21,17 @@ set autoread
 
 " Tab spacing
 set ts=4 sw=4 sts=4
+set colorcolumn=120
+set shell=/bin/zsh
+set cursorline
+set noswapfile
 
+"Show Ruler
+set ruler
+
+filetype plugin indent on    " required
+
+syntax enable
 " Status Line Format
 " set laststatus=2
 " set statusline=%<%f\               
@@ -37,14 +40,8 @@ set ts=4 sw=4 sts=4
 " set statusline+=%*
 " set statusline+=%=%-14.(%l,%c%V%)\ %p%%
 
-"Show Ruler
-set ruler
-
 " Python syntax
-let python_highlight_all = 1
-
-" Width of the NERDTree
-let g:NERDTreeWinSize = 50
+" let python_highlight_all = 1
 
 " Map leader to space
 let mapleader="\<Space>"
@@ -52,16 +49,10 @@ let mapleader="\<Space>"
 " Dont ask to load ycm config every time Vim opens
 let g:ycm_confirm_extra_conf = 0
 
-" Color the non-text lines the same as the background
-:hi NonText guifg=fg guibg=bg
-
 " Vundle ======================================================
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
@@ -122,12 +113,16 @@ Plugin 'vim-airline/vim-airline-themes'
 " Ack
 Plugin 'mileszs/ack.vim'
 
+" Flake8
+Plugin 'nvie/vim-flake8'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Map Shift-Enter to Escape
 :inoremap <S-CR> <Esc>
 
+" Toggle between header and body files (C/C++)
 nmap <F1> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><CR>
 
 " Map Ctrl-N to open nerd tree
@@ -139,13 +134,25 @@ vnoremap <C-c> "+yy
 " Map ; to open Ctrl P buffer
 nnoremap ; :CtrlP<CR>
 
+" Leader Mappings -----------------------------------
 " Leader'vimrc' opens the vimrc file
 map <leader>vimrc :e ~/.vimrc<CR>
 
-let javascript_enable_domhtmlcss=1
+" Find the current buffer in NERDTree
+map <leader>r :NERDTreeFind<cr>
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+
+" Variables -----------------------------------------
+" JSX
+let g:jsx_ext_required = 0
+
+" NERDTree flags
+let g:NERDTreeWinSize = 50 " Width of NERDTree
+let g:NERDTreeShowHidden = 1 " Show hidden files
+
+" let javascript_enable_domhtmlcss=1
 
 " vim-clang-format values
 " Help the plugin find the specific version of clang-format installed
@@ -171,10 +178,12 @@ let g:syntastic_mode_map = {'mode': 'active',
 let g:syntastic_cpp_include_dirs = ['source']
 let g:syntastic_cpp_compiler_options=' -std=c++11'
 let g:syntastic_cpp_compiler = 'clang++-3.5'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_python_checkers=["flake8"]
+let g:syntastic_javascript_checkers=['eslint']
 
 " Ctrlp flags
 set wildignore+=*/bin/*
@@ -185,25 +194,20 @@ let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_custom_ignore ='\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|so|jar)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py|CMakeFiles\CMakeCache\.txt$|cmake_install\.cmake$'
 
-
-filetype plugin indent on    " required
+" Flake8 Flags
+let g:flake8_show_in_gutter=1
 
 colorscheme base16-atelierheath
 
 " Airline Theme
 let g:airline_theme = "powerlineish"
 
+" Alternate colors and highlighting --------------------------
 :hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
-":hi StatusLine guibg=#292e37 guifg=#ffffff
 
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Color the non-text lines the same as the background
+:hi NonText guifg=fg guibg=bg
+
+" Color the colorcolumn bar
+:hi ColorColumn guibg=#ededed
+:hi CursorLine guibg=#ededed
