@@ -1,25 +1,26 @@
 set nocompatible              " be iMproved, required
 
 set lines=999 columns=9999
+set t_Co=256
 
-set guifont=Source\ Code\ Pro
+set guifont=Source\ Code\ Pro\ 10
 
-" Line Numbers
+"Line Numbers
 set nu
 
-" Highlight Search
+"Highlight Search
 set hlsearch
 
 "Set autoindent
 set autoindent
 
-" Expand tab
+"Expand tab
 set expandtab
 
-" Auto load files that have changed
+"Auto load files that have changed
 set autoread
 
-" Tab spacing
+"Tab spacing
 set ts=4 sw=4 sts=4
 set colorcolumn=120
 set shell=/bin/zsh
@@ -116,14 +117,19 @@ Plugin 'mileszs/ack.vim'
 " Flake8
 Plugin 'nvie/vim-flake8'
 
+Plugin 'christoomey/vim-tmux-navigator'
+
+" Vim Go
+Plugin 'fatih/vim-go'
+
 " Change trigger for Emmet to tab
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Map Shift-Enter to Escape
-:inoremap <S-CR> <Esc>
+inoremap <S-CR> <Esc>
 
 " Toggle between header and body files (C/C++)
-nmap <F1> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><CR>
+nmap <F2> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><CR>
 
 " Map Ctrl-N to open nerd tree
 map <C-n> :NERDTreeToggle<CR>
@@ -140,6 +146,11 @@ map <leader>vimrc :e ~/.vimrc<CR>
 
 " Find the current buffer in NERDTree
 map <leader>r :NERDTreeFind<cr>
+
+map <C-h> <C-W>h<CR>
+map <C-j> <C-W>j<CR>
+map <C-k> <C-W>k<CR>
+map <C-l> <C-W>l<CR>
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -188,6 +199,7 @@ let g:syntastic_javascript_checkers=['eslint']
 " Ctrlp flags
 set wildignore+=*/bin/*
 set wildignore+=*/build/*
+let g:ctrlp_map = '<Leader>t'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 let g:ctrlp_dotfiles = 0
@@ -197,7 +209,10 @@ let g:ctrlp_custom_ignore ='\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|so|jar)$|(^|[/\
 " Flake8 Flags
 let g:flake8_show_in_gutter=1
 
-colorscheme base16-atelierheath
+
+
+" set background=dark
+colorscheme monokai
 
 " Airline Theme
 let g:airline_theme = "powerlineish"
@@ -206,7 +221,7 @@ let g:airline_theme = "powerlineish"
 :hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
 
 " Color the non-text lines the same as the background
-:hi NonText guifg=fg guibg=bg
+" :hi NonText guifg=fg guibg=bg
 
 " Color the colorcolumn bar
 :hi ColorColumn guibg=#ededed
