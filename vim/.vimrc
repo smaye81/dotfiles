@@ -20,6 +20,9 @@ set expandtab
 "Auto load files that have changed
 set autoread
 
+"Backspace
+set backspace=indent,eol,start
+
 "Tab spacing
 set ts=4 sw=4 sts=4
 set colorcolumn=120
@@ -30,9 +33,16 @@ set noswapfile
 "Show Ruler
 set ruler
 
-filetype plugin indent on    " required
+"Remember undo history
+set hid
 
-syntax enable
+"Remember Buffers
+set viminfo^=%
+
+filetype plugin indent on    " required
+syntax on
+
+set syntax=enable
 " Status Line Format
 " set laststatus=2
 " set statusline=%<%f\               
@@ -81,10 +91,12 @@ Plugin 'ctrlp.vim'
 Plugin 'chriskempson/base16-vim'
 
 " You Complete Me
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
-" Vim Clang Format
-Plugin 'rhysd/vim-clang-format'
+" Vim Code Format
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
+Plugin 'google/vim-glaive'
 
 " Vim Bbye for sane buffer closing
 Plugin 'moll/vim-bbye'
@@ -123,10 +135,11 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'fatih/vim-go'
 
 " Change trigger for Emmet to tab
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
-" Map Shift-Enter to Escape
-inoremap <S-CR> <Esc>
+" Map jj to Escape
+" inoremap <S-CR> <Esc>
+imap jj <Esc>
 
 " Toggle between header and body files (C/C++)
 nmap <F2> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><CR>
@@ -137,8 +150,9 @@ map <C-n> :NERDTreeToggle<CR>
 " Map Ctrl-c to copy a line in visual mode (vnoremap)
 vnoremap <C-c> "+yy
 
-" Map ; to open Ctrl P buffer
-nnoremap ; :CtrlP<CR>
+" Map Ctrl-; to open Ctrl P buffer
+" Shutting this off as I fatfinger this too much
+" nnoremap ; :CtrlP<CR>
 
 " Leader Mappings -----------------------------------
 " Leader'vimrc' opens the vimrc file
@@ -146,6 +160,9 @@ map <leader>vimrc :e ~/.vimrc<CR>
 
 " Find the current buffer in NERDTree
 map <leader>r :NERDTreeFind<cr>
+
+" Last buffer
+map <leader>l :b#<CR>
 
 map <C-h> <C-W>h<CR>
 map <C-j> <C-W>j<CR>
@@ -155,6 +172,24 @@ map <C-l> <C-W>l<CR>
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
+call glaive#Install()
+
+"Code Formatting
+Glaive codefmt plugin[mappings]=',='
+    \ clang_format_executable='/opt/clang+llvm-3.8.0/bin/clang-format'
+    \ clang_format_style='file'
+
+augroup autoformat
+    autocmd!
+    autocmd FileType cpp AutoFormatBuffer
+augroup END
+
+"Return to last edit position when opening files 
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
 " Variables -----------------------------------------
 " JSX
 let g:jsx_ext_required = 0
@@ -162,20 +197,10 @@ let g:jsx_ext_required = 0
 " NERDTree flags
 let g:NERDTreeWinSize = 50 " Width of NERDTree
 let g:NERDTreeShowHidden = 1 " Show hidden files
+let g:NERDTreeIgnore = ['\.git$[[dir]]', '\.pyc$']
 
-" let javascript_enable_domhtmlcss=1
-
-" vim-clang-format values
-" Help the plugin find the specific version of clang-format installed
-" Alternatively, create a symlink to this from 'usr/bin/clang-format'
-let g:clang_format#command="clang-format-3.6"
-
-"Auto detect the clang format file in the ATC repo
-let g:clang_format#detect_style_file=1
-
-" Automatically set the formatexpr in vim so the "gg" and "q" functions work
-" to trigger formatting
-let g:clang_format#auto_formatexpr=1
+" Auto-open NERDTree when vim starts
+" au VimEnter * NERDTree
 
 " Dont let YCM register as a syntastic checker
 let g:ycm_register_as_syntastic_checker = 0
@@ -189,9 +214,9 @@ let g:syntastic_mode_map = {'mode': 'active',
 let g:syntastic_cpp_include_dirs = ['source']
 let g:syntastic_cpp_compiler_options=' -std=c++11'
 let g:syntastic_cpp_compiler = 'clang++-3.5'
-" let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_always_populate_loc_list = 1
 " let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_python_checkers=["flake8"]
 let g:syntastic_javascript_checkers=['eslint']
@@ -204,18 +229,36 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 40
 let g:ctrlp_custom_ignore ='\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|so|jar)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py|CMakeFiles\CMakeCache\.txt$|cmake_install\.cmake$'
 
 " Flake8 Flags
 let g:flake8_show_in_gutter=1
 
+" Ag Flags
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" Go Flags
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "goimports"
+let g:go_def_mode = 'godef'
 
 
 " set background=dark
 colorscheme monokai
+" set background=light
 
 " Airline Theme
 let g:airline_theme = "powerlineish"
+" function! AirlineThemePatch(palette)
+"     " let a:palette.normal_modified.airline_c =  ['#cb4b16', '#eee8d5', 166, 254, '']
+"     " let a:palette.insert_modified.airline_c =  ['#cb4b16', '#eee8d5', 166, 254, '']
+"     " let a:palette.visual_modified.airline_c =  ['#cb4b16', '#eee8d5', 166, 254, '']
+" endfunction
+" let g:airline_theme_patch_func = 'AirlineThemePatch'
+"
+
 
 " Alternate colors and highlighting --------------------------
 :hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
