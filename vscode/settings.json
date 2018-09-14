@@ -1,0 +1,31 @@
+{
+    "docker.showExplorer": false,
+    "git.ignoreLegacyWarning": true,
+    "editor.fontFamily": "Source Code Pro",
+    "editor.fontSize": 13,
+      // Controls if opened editors show as preview. Preview editors are reused until they are kept (e.g. via double click or editing).
+    "workbench.editor.enablePreview": false,
+    "window.newWindowDimensions": "maximized",
+    "window.openFoldersInNewWindow": "on",
+    "explorer.openEditors.visible": 0,
+    // Controls if opened editors from Quick Open show as preview. Preview editors are reused until they are kept (e.g. via double click or editing).
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "go.formatTool": "goimports",
+    "go.goroot": "/home/sayers/.go/1.10.3",
+    "editor.rulers": [120],
+    "files.exclude": {
+      "**/._*": true,
+      "**/*.pyc": true
+    },
+    "python.linting.flake8Enabled": true,
+    "python.pythonPath": "usr/bin/python",
+    "search.exclude": {
+      "**/.git": true,
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/tmp": true,
+      "**/.gen": true,
+      "**/.history": true,
+      "go-build/**": true,
+    },
+  }
