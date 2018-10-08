@@ -134,6 +134,9 @@ Plugin 'christoomey/vim-tmux-navigator'
 " Vim Go
 Plugin 'fatih/vim-go'
 
+" Linting
+Plugin 'w0rp/ale'
+
 " Change trigger for Emmet to tab
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
@@ -244,6 +247,12 @@ let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 let g:go_def_mode = 'godef'
 
+let g:ale_linters = {
+            \ 'go': ['golint'],
+            \ 'proto': ['prototool'],
+            \ }
+let g:ale_lint_on_text_changed = 'never'
+
 " Use a base16 theme over ssh because it looks much better in iTerm2 than
 " Monokai 
 if $SSH_CONNECTION
@@ -256,14 +265,6 @@ endif
 
 " Airline Theme
 let g:airline_theme = "powerlineish"
-" function! AirlineThemePatch(palette)
-"     " let a:palette.normal_modified.airline_c =  ['#cb4b16', '#eee8d5', 166, 254, '']
-"     " let a:palette.insert_modified.airline_c =  ['#cb4b16', '#eee8d5', 166, 254, '']
-"     " let a:palette.visual_modified.airline_c =  ['#cb4b16', '#eee8d5', 166, 254, '']
-" endfunction
-" let g:airline_theme_patch_func = 'AirlineThemePatch'
-"
-
 
 " Alternate colors and highlighting --------------------------
 :hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
