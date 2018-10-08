@@ -253,9 +253,9 @@ let g:ale_linters = {
             \ }
 let g:ale_lint_on_text_changed = 'never'
 
-" Use a base16 theme over ssh because it looks much better in iTerm2 than
+" Use a base16 theme on Mac or over ssh because it looks much better in iTerm2 than
 " Monokai 
-if $SSH_CONNECTION
+if has("mac") || $SSH_CONNECTION
     colorscheme base16-ocean
 else
     colorscheme monokai
