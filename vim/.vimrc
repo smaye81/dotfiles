@@ -1,7 +1,7 @@
 set nocompatible              " be iMproved, required
 
 set lines=999 columns=9999
-set t_Co=256
+" set t_Co=256
 
 set guifont=Source\ Code\ Pro\ 10
 
@@ -134,6 +134,9 @@ Plugin 'christoomey/vim-tmux-navigator'
 " Vim Go
 Plugin 'fatih/vim-go'
 
+" Linting
+Plugin 'w0rp/ale'
+
 " Change trigger for Emmet to tab
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
@@ -220,6 +223,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_python_checkers=["flake8"]
 let g:syntastic_javascript_checkers=['eslint']
+" let g:syntastic_go_checkers = ['golint', 'govet']
 
 " Ctrlp flags
 set wildignore+=*/bin/*
@@ -244,10 +248,20 @@ let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 let g:go_def_mode = 'godef'
 
+" Ale Linters
+let g:ale_linters = {
+    \ 'go': ['golint'],
+    \ 'proto': ['prototool'],
+    \ }
+let g:ale_lint_on_text_changed = 'never'
+
+" Allow for using hex colors in setting Vim colors
+if has("termguicolors")
+    set termguicolors
+endif
 
 " set background=dark
-colorscheme monokai
-" set background=light
+colorscheme base16-ocean
 
 " Airline Theme
 let g:airline_theme = "powerlineish"
@@ -261,11 +275,11 @@ let g:airline_theme = "powerlineish"
 
 
 " Alternate colors and highlighting --------------------------
-:hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
+" :hi Search ctermfg=020 ctermbg=026 guifg=#ff0000 guibg=#cccccc
 
 " Color the non-text lines the same as the background
 " :hi NonText guifg=fg guibg=bg
 
 " Color the colorcolumn bar
-:hi ColorColumn guibg=#ededed
-:hi CursorLine guibg=#ededed
+" :hi ColorColumn guibg=#ededed
+" :hi CursorLine guibg=#ededed
