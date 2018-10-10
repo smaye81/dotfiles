@@ -12,7 +12,9 @@ set expandtab "Turn tabs into spaces
 set hid "Remember undo history
 set hlsearch "Highlight Search
 set incsearch "Search as characters are entered
-se nu "Line Numbers
+set ignorecase "Case insensitive search
+set noswapfile "Dont create swap files
+set nu "Line Numbers
 set ruler "Always show the cursor position
 set shell=/bin/zsh "Set shell to execute commands
 set showcmd "Show last command in bottom bar
@@ -40,11 +42,16 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
+" MiniBufExplorer
+Plugin 'fholgado/minibufexpl.vim'
+
 " Snippets
 Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
 Bundle "honza/vim-snippets"
+
+"NERDTree
 Bundle "scrooloose/nerdtree"
 
 " Paredit
@@ -100,6 +107,9 @@ nmap <F2> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><C
 
 " Map Ctrl-N to open nerd tree
 map <C-n> :NERDTreeToggle<CR>
+
+" Map Ctrl-M to open MiniBufExplorer
+map <C-m> :MBEToggle<CR>
 
 " Leader Mappings -----------------------------------
 " Leader'vimrc' opens the vimrc file
@@ -181,9 +191,9 @@ let g:ale_linters = {
             \ }
 let g:ale_lint_on_text_changed = 'never'
 
-" Use a base16 theme on Mac or over ssh because it looks much better in iTerm2 than
+" Use a base16 theme on Mac or over ssh/tmux because it looks much better in iTerm2 than
 " Monokai 
-if has("mac") || $SSH_CONNECTION
+if has("mac") || $SSH_CONNECTION || exists('$TMUX')
     colorscheme base16-ocean
 else
     colorscheme monokai
