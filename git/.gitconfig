@@ -1,6 +1,5 @@
 [user]
-	email = sayers@aurora.tech
+	email = smaye81@gmail.com
 	name = Steve Ayers
 [alias]
     lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S'
-    scoutlog = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd)' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S' --author='\\(Steve Ayers\\)\\|\\(Jackie Harnish\\)\\|\\(Brian Tao\\)\\|\\(Brendon Gonzalez\\)\\|\\(Xudong Wu\\)'

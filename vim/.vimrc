@@ -243,7 +243,6 @@ let g:go_def_mode = 'godef'
 " Ale (linting) flags
 let g:ale_sign_column_always = get(g:, 'ale_sign_column_always', 0)
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_javascript_eslint_executable = '/opt/aurora/bin/eslint'
 let g:ale_linters = {
             \ 'go': ['golint'],
             \ 'proto': ['prototool'],
