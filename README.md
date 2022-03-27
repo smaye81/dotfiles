@@ -1,6 +1,3 @@
-dotfiles
-========
+# dotfiles
 
 My dotfiles
- - tmux
- - vim

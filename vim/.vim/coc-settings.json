@@ -1,0 +1,6 @@
+{
+  "diagnostic.displayByAle": true,
+  "coc.preferences.hoverTarget": "echo",
+  "signature.target": "echo",
+  "suggest.autoTrigger": "none"
+}
