@@ -6,7 +6,7 @@ set guifont=Source\ Code\ Pro\ 10
 set autoindent "New lines inherit the indentation of previous lines
 set autoread " Auto load files that have changed
 set backspace=indent,eol,start "Make backspace work properly
-set colorcolumn=120
+set colorcolumn=80,120
 set cursorline "Show horizontal cursor line
 set expandtab "Turn tabs into spaces
 set hid "Remember undo history
@@ -45,21 +45,18 @@ call vundle#begin()
 let g:ale_disable_lsp = 1
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Snippets
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "honza/vim-snippets"
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'honza/vim-snippets'
 
 "NERDTree
-Bundle "scrooloose/nerdtree"
+Plugin 'scrooloose/nerdtree'
 
 " Paredit
-Bundle 'vim-scripts/paredit.vim'
-
-" Ctrl P for fuzzy file search
-Plugin 'ctrlp.vim'
+Plugin 'vim-scripts/paredit.vim'
 
 " Color themes
 Plugin 'chriskempson/base16-vim'
@@ -100,26 +97,40 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'fatih/vim-go'
 
 " Linting
-Plugin 'w0rp/ale'
+Plugin 'dense-analysis/ale'
 
 " Emmet
 Plugin 'mattn/emmet-vim'
 
-" JSX / Typescript
+" JSX / Typescript / Svelte
 Plugin 'leafgarland/typescript-vim'
 Plugin 'peitalin/vim-jsx-typescript'
+Plugin 'evanleck/vim-svelte'
 
 " CoC
 Plugin 'neoclide/coc.nvim'
 
-" set filetypes as typescriptreact
+" Buf
+Plugin 'bufbuild/vim-buf'
+
+" fzf for file searching
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+
+" Use Ruff for Python linting/formatting
+Plugin 'yaegassy/coc-ruff'
+
+
+" set filetypes
 autocmd BufNewFile,BufRead *.tsx,*.ts,*.jsx set filetype=typescriptreact
+autocmd BufNewFile,BufRead *.vue set filetype=vue
+autocmd BufNewFile,BufRead *.svelte set filetype=svelte
 
 " Set Tab to be the Emmet expansion trigger while not causing it to happen
 " when trying to actually indent
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,javascript,typescriptreact  EmmetInstall
-autocmd FileType html,css,javascript,typescriptreact imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+" autocmd FileType html,css,javascript,typescriptreact imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Set tabs to 2 for Javascript files
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
@@ -138,6 +149,9 @@ map <C-n> :NERDTreeToggle<CR>
 " Leader Mappings -----------------------------------
 " Leader'vimrc' opens the vimrc file
 map <leader>vimrc :e ~/.vimrc<CR>
+
+" Yank to system clipboard
+map <leader>j "*y<CR>
 
 " Find the current buffer in NERDTree
 map <leader>r :NERDTreeFind<cr>
@@ -206,6 +220,40 @@ else
     inoremap <silent><expr> <Leader>j coc#refresh()
 endif
 
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use tab for trigger completion with characters ahead and navigate.
+" " NOTE: There's always complete item selected by default, you may want to
+" enable
+" " no select by `"suggest.noselect": true` in your configuration file.
+" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" " other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+    \ coc#pum#visible() ? coc#pum#next(1) :
+    \ CheckBackspace() ? "\<Tab>" :
+    \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" function! StripTrailingWhitespaces()
+"     let save_cursor = getpos(".")
+"     %s/\s\+$//e
+"     call setpos('.', save_cursor)
+" endfunction
+" command! -range=% StripTrailingWhitespaces call StripTrailingWhitespaces()
+" autocmd BufWritePre * :call StripTrailingWhitespaces()
+
 " Variables -----------------------------------------
 " CoC
 let g:coc_disable_startup_warning = 1
@@ -213,21 +261,11 @@ let g:coc_disable_startup_warning = 1
 " NERDTree flags
 let g:NERDTreeWinSize = 50 " Width of NERDTree
 let g:NERDTreeShowHidden = 1 " Show hidden files
-let g:NERDTreeIgnore = ['\.git$[[dir]]', '\.pyc$']
+let g:NERDTreeIgnore = ['\.git$[[dir]]', '\.pyc$', '\.DS_Store']
+let g:NERDTreeMinimalMenu=1
 
 " Auto-open NERDTree when vim starts
 " au VimEnter * NERDTree
-
-" Ctrlp flags
-set wildignore+=*/bin/*
-set wildignore+=*/build/*
-let g:ctrlp_map = '<Leader>t'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
 
 " Flake8 Flags
 let g:flake8_show_in_gutter=1
@@ -245,14 +283,22 @@ let g:ale_sign_column_always = get(g:, 'ale_sign_column_always', 0)
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_linters = {
             \ 'go': ['golint'],
-            \ 'proto': ['prototool'],
+            \ 'proto': ['buf-lint'],
             \ 'python': ['flake8'],
             \ 'javascript': ['eslint'],
             \ 'typescriptreact': ['eslint'],
+            \ 'vue': ['eslint'],
+            \ 'svelte': ['eslint'],
             \ }
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_fix_on_save = 1
-let g:ale_fixers = ['prettier', 'eslint']
+let g:ale_fixers = {
+            \   'javascript': ['prettier'],
+            \   'typescriptreact': ['prettier'],
+            \   'vue': ['prettier'],
+            \   'svelte': ['prettier'],
+            \   'css': ['prettier'],
+            \}
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1

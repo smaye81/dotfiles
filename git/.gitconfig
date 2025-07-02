@@ -1,5 +1,27 @@
+# This is Git's per-user configuration file.
 [user]
-	email = smaye81@gmail.com
-	name = Steve Ayers
+  name = Steve Ayers
+  email = smaye81@gmail.com
+[http "https://gopkg.in"]
+[http]
+        sslVerify = true
+[gopkg "in"]
+[http "https://gopkg.in"]
+	followRedirects = true
+[url "git@github.com:"]
+[branch]
+	autosetuprebase = always
+[rerere]
+	enabled = true
 [alias]
-    lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=format:'%Y-%m-%d %H:%M:%S'
+    lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    releasenotes = log --graph --pretty=format:'%C(yellow)%d%Creset %s by %C(bold blue)%an%Creset' --abbrev-commit --date=relative
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[init]
+	defaultBranch = main
+[core]
+	excludesfile = /Users/sayers/.gitignore
