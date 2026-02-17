@@ -1,30 +1,6 @@
 export EDITOR=vim
 
 [ -s "/usr/local/bin/virtualenvwrapper.sh" ] && . /usr/local/bin/virtualenvwrapper.sh
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-# must be after nvm initialization.  calls `nvm use` automatically whenever a directory is entered that contains an
-# .nvmrc file with a string telling nvm which node to use
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-        nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-        nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
 
 which rbenv >/dev/null && eval "$(rbenv init -)"
 
@@ -84,14 +60,21 @@ sed_all_files() {
     done
 }
 
+# Call this function to set a color scheme and also set it to vimrc background
+# This fixes the green lines in Vim
+set_base16() {
+  base16_$1
+  echo "colorscheme base16-$1" > ~/.vimrc_background
+}
+
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
+        source "$BASE16_SHELL/profile_helper.sh"
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/sayers/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -146,10 +129,12 @@ plugins=(git)
 # User configuration
 
 unset GOARCH;
-export GOPATH='/Users/sayers/Projects/go'
+export GOPATH='~/Projects/go'
 
-# export PATH="/opt/homebrew/bin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH="/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bin:$HOMEBREW_PREFIX/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+if [ -n "$HOMEBREW_PREFIX" ]; then
+  export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+fi
 
 # Using this path causes vim to have 256 color issues with green lines
 # export PATH="/usr/local/opt/findutils/libexec/gnubin:$HOMEBREW_PREFIX/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin"
@@ -157,18 +142,15 @@ export PATH="/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bi
 export PATH="${GOPATH}/bin:${PATH}";
 # export PATH=$HOME/Library/Python/3.9/bin:$PATH
 export PATH=$HOME/dart/flutter/bin:$PATH
-# CMAKE installs
-export PATH=$HOME/.local/bin:$PATH
-
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
 
-source ~/.cargo/env
+#source ~/.cargo/env
 
-go version >&2;
-protoc --version >&2
-dart --version >&2
-python3 --version >&2
-cargo --version >&2
+#go version >&2;
+#protoc --version >&2
+#dart --version >&2
+#python3 --version >&2
+#cargo --version >&2
 
 source $ZSH/oh-my-zsh.sh
 
@@ -194,6 +176,10 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 
 # Search everything, including hidden dirs and files, but ignore the .git directory
 alias agall="ag --hidden --ignore .git"
+
+# Switch to a Mac when using a KVM switch on Linux
+# This switches from a DisplayPort on Linux to a USB-C on Mac
+alias gomac="ddcutil setvcp 60 0x04"
 
 # ======= Personal zsh/bash functions
 
@@ -225,18 +211,14 @@ export PATH="$PATH:$HOME/.rvm/bin"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ulimit -n 524288
-eval "$(direnv hook zsh)"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/sayers/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sayers/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/sayers/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/sayers/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-source <(kubectl completion zsh)
-
-# bun completions
-[ -s "/Users/sayers/.bun/_bun" ] && source "/Users/sayers/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# fnm
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
