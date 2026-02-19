@@ -10,6 +10,17 @@
             }
         }
     },
+    "tsserver.filetypes": [
+        "typescript",
+        "typescriptreact",
+        "javascript",
+        "javascriptreact"
+    ],
+    "tsserver.maxTsServerMemory": 8192,
+    "volar.maxTsServerMemory": 8192,
+    "volar.tsPlugin": true,
+    "volar.takeOverMode": false,
+    "volar.filetypes": ["vue"],
     "pyright.disableDiagnostics": true,
     "pyright.inlayHints.parameterTypes": false,
     "pyright.inlayHints.variableTypes": false,
