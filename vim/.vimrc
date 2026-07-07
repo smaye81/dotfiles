@@ -9,7 +9,7 @@ set backspace=indent,eol,start "Make backspace work properly
 set colorcolumn=80,120
 set cursorline "Show horizontal cursor line
 set expandtab "Turn tabs into spaces
-set hid "Remember undo history
+set hidden "Remember undo history
 set hlsearch "Highlight Search
 set incsearch "Search as characters are entered
 set ignorecase "Case insensitive search
@@ -21,7 +21,6 @@ set shell=/bin/zsh "Set shell to execute commands
 set showbreak=>\ \ \
 set showcmd "Show last command in bottom bar
 set smartcase "Automatically switch to case-sensitive search if search contains uppercase letter
-set syntax=enable
 set t_Co=256 "Set max number of colors for host terminal
 set title "Set window's title to file currently being edited
 set ts=4 sw=4 sts=4 "Tab spacing
@@ -29,7 +28,13 @@ set viminfo^=% "Remember Buffers
 set undolevels=1000 "Use many levels of undo
 set wildmenu "Visual autocomplete for command menu
 set wildignore+=.pyc,.swp "Ignore files matching these files when opening files based on a glob pattern
+set wildignorecase "Case insensitive for visual autocomplete
 set wrap "Word wrap visually as opposed to changing the text in the buffer
+
+" set signcolumn=yes          " Always show sign column, prevents layout shift
+set scrolloff=4             " Keep 8 lines visible above/below cursor (i use 4)
+set splitright              " New vertical splits go right
+set splitbelow              " New horizontal splits go below
 
 filetype plugin indent on    " required
 syntax on
@@ -37,103 +42,102 @@ syntax on
 " Map leader to space
 let mapleader="\<Space>"
 
-" Vundle ======================================================
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" vim-Plug ======================================================
+call plug#begin('~/.vim/plugged')
 
-let g:ale_disable_lsp = 1
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Startup screen
+Plug 'mhinz/vim-startify'
 
 " Snippets
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'honza/vim-snippets'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'honza/vim-snippets'
 
 "NERDTree
-Plugin 'scrooloose/nerdtree'
-
-" Paredit
-Plugin 'vim-scripts/paredit.vim'
+Plug 'scrooloose/nerdtree'
 
 " Color themes
-Plugin 'chriskempson/base16-vim'
-Plugin 'tomasiser/vim-code-dark'
-Plugin 'dracula/vim'
+Plug 'chriskempson/base16-vim'
+Plug 'tomasiser/vim-code-dark'
+Plug 'dracula/vim'
 
 " Vim Code Format
-Plugin 'google/vim-maktaba'
-Plugin 'google/vim-codefmt'
-Plugin 'google/vim-glaive'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+Plug 'google/vim-glaive'
 
 " Vim Bbye for sane buffer closing
-Plugin 'moll/vim-bbye'
+Plug 'moll/vim-bbye'
 
 " C++ Enhanced Syntax
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Fugitive Git
-Plugin 'tpope/vim-fugitive.git'
+Plug 'tpope/vim-fugitive'
 
 " Commentary for comments
-Plugin 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 
 " Airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-" Ack
-Plugin 'mileszs/ack.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Flake8
-Plugin 'nvie/vim-flake8'
+Plug 'nvie/vim-flake8'
 
 " Tmux Navigator
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Vim Go
-Plugin 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Linting
-Plugin 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 
 " Emmet
-Plugin 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
 " JSX / Typescript / Svelte
-Plugin 'leafgarland/typescript-vim'
-Plugin 'peitalin/vim-jsx-typescript'
-Plugin 'evanleck/vim-svelte'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'evanleck/vim-svelte'
 
 " CoC
-Plugin 'neoclide/coc.nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Buf
-Plugin 'bufbuild/vim-buf'
+Plug 'bufbuild/vim-buf'
 
 " fzf for file searching
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Use Ruff for Python linting/formatting
-Plugin 'yaegassy/coc-ruff'
+Plug 'yaegassy/coc-ruff'
 
 
 " set filetypes
-autocmd BufNewFile,BufRead *.tsx,*.ts,*.jsx set filetype=typescriptreact
 autocmd BufNewFile,BufRead *.vue set filetype=vue
 autocmd BufNewFile,BufRead *.svelte set filetype=svelte
+
+" For Vue files, use // comments
+autocmd FileType vue setlocal commentstring=//\ %s
 
 " Set Tab to be the Emmet expansion trigger while not causing it to happen
 " when trying to actually indent
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,javascript,typescriptreact  EmmetInstall
-" autocmd FileType html,css,javascript,typescriptreact imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+" Comment this line to shut off emmet
+autocmd FileType html,css,javascript,typescriptreact imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Set tabs to 2 for Javascript files
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+
+" This opens the last open file by default if Vim is opened with no args
+" autocmd VimEnter * nested if argc() == 0 && !exists("s:std_in") | execute 'e ' . v:oldfiles[0] | endif
+
+" Open NERDTree by default set focus to the startify pane
+autocmd VimEnter * NERDTree | wincmd p
 
 " Toggle between header and body files (C/C++)
 " nmap <F2> :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<CR><CR>
@@ -143,39 +147,46 @@ nmap <leader>c :if expand('%:e')=='hh'<CR>e %:r.cc<CR>else<CR>e %:r.hh<CR>endif<
 " Map Ctrl-N to open nerd tree
 map <C-n> :NERDTreeToggle<CR>
 
-" Map Ctrl-M to open MiniBufExplorer
-" map <C-m> :MBEToggle<CR>
-
 " Leader Mappings -----------------------------------
 " Leader'vimrc' opens the vimrc file
-map <leader>vimrc :e ~/.vimrc<CR>
+nnoremap <leader>vimrc :e ~/.vimrc<CR>
 
 " Yank to system clipboard
-map <leader>j "*y<CR>
+nnoremap <leader>j "+y
+xnoremap <leader>j "+y
 
 " Find the current buffer in NERDTree
-map <leader>r :NERDTreeFind<cr>
+nnoremap <leader>r :NERDTreeFind<cr>
 
 " Last buffer
-map <leader>l :b#<CR>
+nnoremap <leader>l :b#<CR>
 
 " Shut off search highlights
-map <leader>s :nohlsearch<CR>
+nnoremap <leader>s :nohlsearch<CR>
 
 " Go Mappings
-map <leader>ga :GoAlternate<CR>
+nnoremap <leader>ga :GoAlternate<CR>
+
+"  Open fzf to search for files
+nnoremap <leader>f :Files<CR>
 
 " ALENext / Previous
 nmap <silent> <leader>an :ALENextWrap<cr>
 nmap <silent> <leader>ap :ALEPreviousWrap<cr>
 
-map <C-h> <C-W>h<CR>
-map <C-j> <C-W>j<CR>
-map <C-k> <C-W>k<CR>
-map <C-l> <C-W>l<CR>
+" Use fd for fzf file listing — respects .gitignore, excludes common junk
+let $FZF_DEFAULT_COMMAND = 'fdfind --type f --hidden --follow ' .
+    \ '--exclude .git ' .
+    \ '--exclude node_modules ' .
+    \ '--exclude .toolchain ' .
+    \ '--exclude build ' .
+    \ '--exclude dist ' .
+    \ '--exclude gen'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+let $FZF_DEFAULT_OPTS = '--height 40% --border'
+
+" All of your Plugs must be added before the following line
+call plug#end()            " required
 
 call glaive#Install()
 
@@ -246,15 +257,22 @@ function! CheckBackspace() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" function! StripTrailingWhitespaces()
-"     let save_cursor = getpos(".")
-"     %s/\s\+$//e
-"     call setpos('.', save_cursor)
-" endfunction
-" command! -range=% StripTrailingWhitespaces call StripTrailingWhitespaces()
-" autocmd BufWritePre * :call StripTrailingWhitespaces()
+" Strip trailing whitespace on save
+function! StripTrailingWhitespaces()
+    let save_cursor = getpos(".")
+    %s/\s\+$//e
+    call setpos('.', save_cursor)
+endfunction
+command! -range=% StripTrailingWhitespaces call StripTrailingWhitespaces()
+autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 " Variables -----------------------------------------
+
+" Save the working directory at startup and always open the fzf file search
+" from that dir
+let g:start_dir = getcwd()
+nnoremap <leader>f :execute 'Files ' . g:start_dir<CR>
+
 " CoC
 let g:coc_disable_startup_warning = 1
 
@@ -270,35 +288,38 @@ let g:NERDTreeMinimalMenu=1
 " Flake8 Flags
 let g:flake8_show_in_gutter=1
 
-" Ag Flags
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 " Go Flags
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
-let g:go_def_mode = 'godef'
+let g:go_def_mode = 'gopls'
+let g:go_info_mode = 'gopls'
+
+" Ale (linting) flags
+let g:ale_disable_lsp = 1
+
+let g:ale_linters = {
+            \ 'go': ['golangci-lint'],
+            \ 'proto': ['buf-lint'],
+            \ 'python': ['ruff'],
+            \ 'javascript': ['eslint'],
+            \ 'typescript': ['eslint'],
+            \ 'vue': ['eslint'],
+            \ }
+
+let g:ale_fixers = {
+            \   'javascript': ['prettier'],
+            \   'json': ['prettier'],
+            \   'typescript': ['prettier'],
+            \   'vue': ['prettier'],
+            \   'svelte': ['prettier'],
+            \   'css': ['prettier'],
+            \ }
 
 " Ale (linting) flags
 let g:ale_sign_column_always = get(g:, 'ale_sign_column_always', 0)
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_linters = {
-            \ 'go': ['golint'],
-            \ 'proto': ['buf-lint'],
-            \ 'python': ['flake8'],
-            \ 'javascript': ['eslint'],
-            \ 'typescriptreact': ['eslint'],
-            \ 'vue': ['eslint'],
-            \ 'svelte': ['eslint'],
-            \ }
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-            \   'javascript': ['prettier'],
-            \   'typescriptreact': ['prettier'],
-            \   'vue': ['prettier'],
-            \   'svelte': ['prettier'],
-            \   'css': ['prettier'],
-            \}
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
@@ -309,12 +330,15 @@ let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
+
+
 " Color schemes
-" colorscheme codedark
 " colorscheme monokai
 colorscheme base16-ocean
 let base16colorspace=256
 set background=dark
+" This fixes the green line issue with base16
+set termguicolors
 
 " Airline Theme
 let g:airline_theme = 'powerlineish'
