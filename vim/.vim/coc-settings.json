@@ -16,6 +16,17 @@
         "javascript",
         "javascriptreact"
     ],
+    "clangd.enabled": true,
+    "clangd.path": "/home/sma/Projects/lab37/.toolchain/sysroot/bin/clangd",
+    "clangd.arguments": [
+        "--background-index",
+        "--compile-commands-dir=/home/sma/Projects/lab37/build",
+        "--clang-tidy",
+        "--completion-style=detailed"
+    ],
+    "[cpp]": {
+        "inlayHint.enable": false
+    },
     "tsserver.maxTsServerMemory": 8192,
     "volar.maxTsServerMemory": 8192,
     "volar.tsPlugin": true,
@@ -32,7 +43,9 @@
         "reportPrivateImportUsage": false,
         "reportUndefinedVariable": false
     },
-    "[python, java]": {
+    "[python,java]": {
         "coc.preferences.formatOnSave": true
-    }
+    },
+    "svelte.enable-ts-plugin": true
 }
+
