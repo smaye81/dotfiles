@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+.AppleDouble
+._*
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Editors
+*.swp
+*.swo
+.idea/

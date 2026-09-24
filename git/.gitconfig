@@ -1,27 +1,35 @@
-# This is Git's per-user configuration file.
+# Machine-specific settings (work email, credential helpers,
+# anything `git config --global` adds) belong in ~/.gitconfig.local.
 [user]
-  name = Steve Ayers
-  email = smaye81@gmail.com
-[http "https://gopkg.in"]
-[http]
-        sslVerify = true
-[gopkg "in"]
-[http "https://gopkg.in"]
-	followRedirects = true
-[url "git@github.com:"]
-[branch]
-	autosetuprebase = always
+	name = Steve Ayers
+	email = smaye81@gmail.com
+[init]
+	defaultBranch = main
+[core]
+	excludesfile = ~/.gitignore_global
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[merge]
+	conflictStyle = zdiff3
+[diff]
+	algorithm = histogram
 [rerere]
 	enabled = true
+	autoUpdate = true
+[http "https://gopkg.in"]
+	followRedirects = true
 [alias]
-    lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    releasenotes = log --graph --pretty=format:'%C(yellow)%d%Creset %s by %C(bold blue)%an%Creset' --abbrev-commit --date=relative
+	lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	releasenotes = log --graph --pretty=format:'%C(yellow)%d%Creset %s by %C(bold blue)%an%Creset' --abbrev-commit --date=relative
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
-[init]
-	defaultBranch = main
-[core]
-	excludesfile = /Users/sayers/.gitignore
+# Last, so local settings override the shared ones. Silently skipped if missing.
+[include]
+	path = ~/.gitconfig.local
