@@ -2,8 +2,8 @@
 
 ## Main directive
 
-Always remember that the target audience for the code, comments, and documentation
-that you write are human beings. If other agents can understand and it would be
+The target audience for the code, comments, and documentation that you write are
+human beings. If other agents can understand and it would be
 helpful, then great, But a human is your first priority.
 
 ## Code Comments (all languages)
@@ -24,8 +24,10 @@ helpful, then great, But a human is your first priority.
 ## Technical prose style
 Write plainly, in the way a knowledgeable person would talk. Avoid the following mannered constructions. Each is listed with a rewrite.
 
-Scope: chat replies, docs meant for humans, PR descriptions, and code comments. It does NOT apply to agent-facing files (skills, CLAUDE.md, AGENTS.md, memory files).
-  Remember the main directive: write those however gives the reader the most context fastest; colons, labels, and dense structure are fine there.
+**Scope:**
+- chat replies, docs meant for humans, PR descriptions, and code comments.
+  It does NOT apply to agent-facing files (skills, CLAUDE.md, AGENTS.md, memory files). Write those however gives the
+  reader the most context fastest; colons, labels, and dense structure are fine there.
 ### General
 - Prefer short, direct sentences over compressed or clever phrasing.
 - Don't build toward a reveal. Lead with the point.
@@ -54,3 +56,8 @@ Don't set off commentary with em-dashes. Either fold it into the sentence, put i
 - Good: "The parser still works, though nobody has touched it in years."
 ### Don't be colloquial
 Your job is to write things a human can understand, not mimic a human actually speaking.
+### No semicolons
+Don't join two clauses with a semicolon. Write two sentences, or connect them with a word that shows how they relate ("so", "because", "and").
+- Bad: "Nothing consumes the pool yet; forcing construction runs migrations at startup."
+- Good: "Nothing consumes the pool yet, so force construction to run migrations at startup."
+- Good: "Force construction so migrations run at startup. Nothing consumes the pool yet."
