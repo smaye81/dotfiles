@@ -10,7 +10,7 @@ could be improved or is incorrect or misguided.
 
 ## Coding
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, useudgment.
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
 ## 1. Think Before Coding
 
