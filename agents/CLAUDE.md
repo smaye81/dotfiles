@@ -8,9 +8,47 @@ discussions, not as an assistant serving requests.
 Always feel free to push back on something if what I've suggested or thought of
 could be improved or is incorrect or misguided.
 
+## General rules
+
+Before any action that changes something, work out which of these groups it falls in.
+
+### Fine without asking
+Local state that only affects my machine and can be rebuilt from the repo:
+* `pnpm install`, builds, tests, lint, codegen
+* Clearing caches and build output (`.turbo/`, `node_modules/`, `build/`, `.svelte-kit/`)
+* Editing files in the working tree as part of the task. Staging is fine too.
+
+If one of these changes a tracked file as a side effect (for example, `pnpm install` rewriting `pnpm-lock.yaml`), tell me.
+
+### Ask first
+* Deleting or discarding anything outside caches and build output: uncommitted
+  changes, stashes, branches, worktrees, or files outside the repo
+* Rewriting history, including rebases I didn't ask for
+* Acting on a recommendation you just made. Listing options and a recommended one
+  isn't approval. Wait for me to pick.
+
+### Never. Give me the command and I'll run it
+* Commits and pushes, to any branch. Leave changes in the working tree.
+* Opening, merging, or commenting on pull requests
+* Sending an email, Slack message, or anything else on my behalf
+* Terraform or terragrunt, including `plan`. I run plan and paste the output,
+  you review it, and I apply.
+* DB scripts, migrations, or any DB write in any environment, local included.
+  To test a make target that touches a DB, use `make -n`.
+
+### Commands you hand me
+* `kubectl` commands always include an explicit `--context`. We have several clusters, and running against the wrong one fails silently.
+
+## Build constraints
+- NEVER run `bazel build`, `bazel test`, or any Bazel command locally. Use `go build ./...`, `go test ./...`, `pnpm tsc --noEmit`, and `pnpm vitest` instead. If only Bazel can verify a change, say so and ask me to run it.
+
+## Tooling environment
+- I use TablePlus, not psql. Give SQL as single self-contained statements that run in a GUI client (no `\copy` or psql meta-commands, no multi-statement transactions that can partially fail).
+- I don't always have AWS access from this machine. Say when a claim can't be verified without it.
+
 ## Coding
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, useudgment.
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
 ## 1. Think Before Coding
 
@@ -55,6 +93,11 @@ When your changes create orphans:
 The target audience for the code, comments, and documentation that you write are
 human beings. If other agents can understand and it would be
 helpful, then great, But a human is your first priority.
+
+### Answering questions
+- If I ask a conceptual or design question, answer it step by step and briefly. Don't produce an implementation plan unless I ask for one.
+- For a 'sanity check', give a verdict plus your top 1-3 concerns only.
+- Before answering, confirm which layer I mean (DNS/hosted zone, app, infra) if it's ambiguous.
 
 ### Code Comments (all languages)
 
